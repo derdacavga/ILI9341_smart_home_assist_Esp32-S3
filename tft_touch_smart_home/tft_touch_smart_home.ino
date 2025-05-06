@@ -44,11 +44,11 @@ void setup() {
   }
 
   tft.init();
-  tft.setRotation(2); // Change display rotation
+  tft.setRotation(2);  // Change display rotation
   logo();
   delay(2000);
-  tft.setTextFont(1); // Change Font
-  tft.setTextSize(0); // Change Font Size
+  tft.setTextFont(1);  // Change Font
+  tft.setTextSize(0);  // Change Font Size
   tft.fillScreen(TFT_GREEN);
 
   if (!SPIFFS.exists("/calibrationData")) {
@@ -103,8 +103,8 @@ void drawMainScreen() {
   tft.setTextColor(TFT_BLACK, TFT_GREEN);
   tft.drawString("Smart Home Assist", 110, 5);
 
-  btnLight.initButton(&tft, 120, 100, 180, 40, TFT_BLACK, TFT_BLUE, TFT_BLACK, "LIGHT", 1);
-  btnLock.initButton(&tft, 120, 160, 180, 40, TFT_BLACK, TFT_RED, TFT_BLACK, "DOOR", 1);
+  btnLight.initButton(&tft, 120, 100, 180, 40, TFT_BLACK, TFT_GREEN, TFT_BLACK, "LIGHT", 1);
+  btnLock.initButton(&tft, 120, 160, 180, 40, TFT_BLACK, TFT_GREEN, TFT_BLACK, "DOOR", 1);
   btnLight.drawButton();
   btnLock.drawButton();
 
@@ -116,6 +116,8 @@ void drawMainScreen() {
 void updateStatus() {
   tft.setTextColor(TFT_BLACK, TFT_GREEN);
   tft.fillRect(0, 210, 240, 30, TFT_GREEN);
+  tft.setTextSize(1);
+  tft.setTextFont(1);
   tft.setCursor(10, 210);
   tft.print("Light: ");
   tft.print(lightState ? "Open" : "Close");
@@ -139,7 +141,8 @@ void updateWeather() {
       if (!error) {
         float temp = doc["current_weather"]["temperature"];
         float wind = doc["current_weather"]["windspeed"];
-
+        tft.setTextSize(1);
+        tft.setTextFont(1);
         tft.setTextColor(TFT_BLACK, TFT_GREEN);
         tft.fillRect(0, 60, 240, 20, TFT_GREEN);
         tft.setCursor(10, 65);
@@ -163,7 +166,8 @@ void updateClock() {
   strftime(timeStr, sizeof(timeStr), "%H:%M:%S", &timeinfo);
   char dateStr[16];
   strftime(dateStr, sizeof(dateStr), "%d/%m/%Y", &timeinfo);
-
+  tft.setTextSize(1);
+  tft.setTextFont(1);
   tft.setTextColor(TFT_BLACK, TFT_GREEN);
   tft.fillRect(0, 30, 240, 20, TFT_GREEN);
   tft.setCursor(10, 35);
@@ -193,6 +197,8 @@ void touchCalibration() {
   tft.fillScreen(TFT_GREEN);
   tft.setTextColor(TFT_BLACK, TFT_GREEN);
   tft.setTextDatum(MC_DATUM);
+  tft.setTextSize(1);
+  tft.setFreeFont(&FreeSansBold12pt7b);
   tft.drawString("Touch that corners", tft.width() / 2, tft.height() / 2);
   delay(2000);
   tft.calibrateTouch(calData, TFT_BLACK, TFT_GREEN, 15);
